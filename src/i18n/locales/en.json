@@ -1,0 +1,116 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "close": "Close",
+    "search": "Search",
+    "readMore": "Read more",
+    "seeAll": "See all",
+    "share": "Share",
+    "minutes": "min read"
+  },
+  "nav": {
+    "home": "Home",
+    "politics": "Politics",
+    "business": "Business",
+    "culture": "Culture",
+    "sports": "Sports",
+    "technology": "Technology",
+    "health": "Health",
+    "education": "Education",
+    "world": "World",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "profile": "Profile"
+  },
+  "home": {
+    "hero": "Your Trusted Source for News",
+    "heroSubtitle": "Delivering accurate, verified news with AI-powered transparency",
+    "featured": "Featured Stories",
+    "latest": "Latest News",
+    "trending": "Trending",
+    "categories": "Categories",
+    "aiPowered": "Powered by QALACA AI"
+  },
+  "article": {
+    "publishedOn": "Published on",
+    "author": "By",
+    "views": "views",
+    "relatedArticles": "Related Articles",
+    "sources": "Sources",
+    "lastUpdated": "Last updated"
+  },
+  "qalaca": {
+    "name": "QALACA",
+    "tagline": "Your News Intelligence Assistant",
+    "ask": "Ask QALACA",
+    "verify": "Verify",
+    "summarize": "Summarize",
+    "explain": "Explain",
+    "verifyTitle": "Fact Check",
+    "summarizeTitle": "Article Summary",
+    "explainTitle": "Explanation",
+    "verifyDesc": "Check the credibility and sources of this article",
+    "summarizeDesc": "Get a quick summary of the key points",
+    "explainDesc": "Understand the context and background",
+    "credibility": "Credibility Score",
+    "sources": "Verified Sources",
+    "thinking": "QALACA is analyzing...",
+    "aiGenerated": "AI Generated",
+    "disclaimer": "This analysis is AI-generated. Always verify important information from multiple sources.",
+    "summaryOptions": {
+      "short": "Short",
+      "medium": "Medium",
+      "simple": "Simple"
+    },
+    "credibilityLevels": {
+      "high": "High Credibility",
+      "medium": "Medium Credibility",
+      "low": "Low Credibility",
+      "verified": "Verified"
+    },
+    "placeholder": "Ask about this article...",
+    "rateLimit": "Too many requests. Please wait a moment.",
+    "paymentRequired": "Usage limit reached. Please upgrade your account."
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "loginSuccess": "Welcome back!",
+    "signupSuccess": "Account created successfully!",
+    "logoutSuccess": "You have been logged out",
+    "invalidCredentials": "Invalid email or password",
+    "emailTaken": "This email is already registered",
+    "preferredLanguage": "Preferred Language"
+  },
+  "categories": {
+    "politics": "Politics",
+    "business": "Business",
+    "culture": "Culture",
+    "sports": "Sports",
+    "technology": "Technology",
+    "health": "Health",
+    "education": "Education",
+    "world": "World"
+  },
+  "footer": {
+    "about": "About Us",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "© 2026 Oromo Times. All rights reserved.",
+    "mission": "Delivering trustworthy, AI-verified news to the Oromo community worldwide."
+  }
+}
