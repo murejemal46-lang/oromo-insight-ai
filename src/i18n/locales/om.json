@@ -1,0 +1,116 @@
+{
+  "common": {
+    "loading": "Fe'aa jira...",
+    "error": "Dogoggorri uumame",
+    "retry": "Irra deebi'ii yaali",
+    "cancel": "Haqi",
+    "confirm": "Mirkaneessi",
+    "save": "Kuusi",
+    "close": "Cufi",
+    "search": "Barbaadi",
+    "readMore": "Dabalataan dubbisi",
+    "seeAll": "Hunda ilaali",
+    "share": "Qoodi",
+    "minutes": "daqiiqaa dubbisa"
+  },
+  "nav": {
+    "home": "Mana",
+    "politics": "Siyaasa",
+    "business": "Daldalaa",
+    "culture": "Aadaa",
+    "sports": "Ispoortii",
+    "technology": "Teeknooloojii",
+    "health": "Fayyaa",
+    "education": "Barnootaa",
+    "world": "Addunyaa",
+    "login": "Seeni",
+    "signup": "Galmaa'i",
+    "logout": "Ba'i",
+    "profile": "Profaayilii"
+  },
+  "home": {
+    "hero": "Madda Odeeffannoo Kee Amanamaa",
+    "heroSubtitle": "Oduu sirrii fi AI'n mirkanaa'e dhiyeessuu",
+    "featured": "Oduu Filatamoo",
+    "latest": "Oduu Haaraa",
+    "trending": "Trending",
+    "categories": "Ramaddii",
+    "aiPowered": "QALACA AI'n Kan Deeggarame"
+  },
+  "article": {
+    "publishedOn": "Guyyaa maxxanfame",
+    "author": "Barreessaa",
+    "views": "ilaalcha",
+    "relatedArticles": "Barruulee Walfakkaatan",
+    "sources": "Maddaawwan",
+    "lastUpdated": "Yeroo dhumaa haaromfame"
+  },
+  "qalaca": {
+    "name": "QALACA",
+    "tagline": "Gargaartuu Odeeffannoo Kee",
+    "ask": "QALACA Gaafadhu",
+    "verify": "Mirkaneessi",
+    "summarize": "Cuunfaa",
+    "explain": "Ibsi",
+    "verifyTitle": "Dhugaa Mirkaneessi",
+    "summarizeTitle": "Cuunfaa Barruu",
+    "explainTitle": "Ibsa",
+    "verifyDesc": "Amanamummaa fi madda barruu kanaa mirkaneessi",
+    "summarizeDesc": "Cuunfaa qabxiilee ijoo argadhu",
+    "explainDesc": "Haala duubee fi seenaa hubadhu",
+    "credibility": "Qabxii Amanamummaa",
+    "sources": "Maddawwan Mirkanaa'an",
+    "thinking": "QALACA xiinxalaa jira...",
+    "aiGenerated": "AI'n Kan Uumame",
+    "disclaimer": "Xiinxalli kun AI'n uumame. Odeeffannoo barbaachisaa maddoota adda addaa irraa mirkaneessi.",
+    "summaryOptions": {
+      "short": "Gabaabaa",
+      "medium": "Giddu-galeessa",
+      "simple": "Salphaa"
+    },
+    "credibilityLevels": {
+      "high": "Amanamummaa Ol'aanaa",
+      "medium": "Amanamummaa Giddu-galeessa",
+      "low": "Amanamummaa Gadi Aanaa",
+      "verified": "Mirkanaa'e"
+    },
+    "placeholder": "Waa'ee barruu kanaa gaafadhu...",
+    "rateLimit": "Gaaffii baay'ee. Yeroo muraasa turuu.",
+    "paymentRequired": "Daangaa fayyadamaa ga'ameera. Herreega kee guddisi."
+  },
+  "auth": {
+    "login": "Seeni",
+    "signup": "Galmaa'i",
+    "email": "Imeelii",
+    "password": "Jecha Iccitii",
+    "fullName": "Maqaa Guutuu",
+    "confirmPassword": "Jecha Iccitii Mirkaneessi",
+    "forgotPassword": "Jecha iccitii dagatte?",
+    "noAccount": "Herreega hin qabduu?",
+    "hasAccount": "Herreega qabdaa?",
+    "loginSuccess": "Baga nagaan dhufte!",
+    "signupSuccess": "Herreegni milkaa'inaan uumame!",
+    "logoutSuccess": "Milkaa'inaan ba'teetta",
+    "invalidCredentials": "Imeelii ykn jecha iccitii dogoggora",
+    "emailTaken": "Imeeliin kun duraan galmeeffameera",
+    "preferredLanguage": "Afaan Filatamaa"
+  },
+  "categories": {
+    "politics": "Siyaasa",
+    "business": "Daldalaa",
+    "culture": "Aadaa",
+    "sports": "Ispoortii",
+    "technology": "Teeknooloojii",
+    "health": "Fayyaa",
+    "education": "Barnootaa",
+    "world": "Addunyaa"
+  },
+  "footer": {
+    "about": "Waa'ee Keenya",
+    "contact": "Qunnamtii",
+    "privacy": "Imaammata Dhuunfaa",
+    "terms": "Haala Tajaajilaa",
+    "copyright": "© 2026 Oromo Times. Mirgi Hundi Seeraan Kan Eegame.",
+    "mission": "Oduu amanamaa fi AI'n mirkanaa'e hawaasa Oromoo addunyaa maratti dhiyeessuu."
+  }
+}
