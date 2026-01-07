@@ -11,7 +11,8 @@
     "readMore": "Read more",
     "seeAll": "See all",
     "share": "Share",
-    "minutes": "min read"
+    "minutes": "min read",
+    "settings": "Settings"
   },
   "nav": {
     "home": "Home",
@@ -104,6 +105,12 @@
     "health": "Health",
     "education": "Education",
     "world": "World"
+  },
+  "dashboard": {
+    "menu": "Menu",
+    "overview": "Overview",
+    "myArticles": "My Articles",
+    "newArticle": "New Article"
   },
   "footer": {
     "about": "About Us",
