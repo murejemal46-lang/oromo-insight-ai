@@ -1,1 +1,4 @@
 project_id = "snbtvuworoygqoqdmmih"
+
+[functions.qalaca-ai]
+verify_jwt = false
