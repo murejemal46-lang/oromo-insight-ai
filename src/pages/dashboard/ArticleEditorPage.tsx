@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { z } from 'zod';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { ImageUpload } from '@/components/dashboard/ImageUpload';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -257,41 +258,43 @@ export default function ArticleEditorPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Editor */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Category & Image */}
+            {/* Category */}
             <Card>
-              <CardContent className="pt-6 space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>{language === 'om' ? 'Ramaddii' : 'Category'}</Label>
-                    <Select 
-                      value={formData.category} 
-                      onValueChange={(v) => updateField('category', v)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {categories.map((cat) => (
-                          <SelectItem key={cat} value={cat}>
-                            {t(`categories.${cat}`)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{language === 'om' ? 'Suuraa' : 'Featured Image URL'}</Label>
-                    <div className="relative">
-                      <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input
-                        placeholder="https://..."
-                        value={formData.featured_image}
-                        onChange={(e) => updateField('featured_image', e.target.value)}
-                        className="pl-10"
-                      />
-                    </div>
-                  </div>
+              <CardContent className="pt-6">
+                <div className="space-y-2">
+                  <Label>{language === 'om' ? 'Ramaddii' : 'Category'}</Label>
+                  <Select 
+                    value={formData.category} 
+                    onValueChange={(v) => updateField('category', v)}
+                  >
+                    <SelectTrigger className="w-full sm:w-64">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((cat) => (
+                        <SelectItem key={cat} value={cat}>
+                          {t(`categories.${cat}`)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Featured Image */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ImageIcon className="w-5 h-5" />
+                  {language === 'om' ? 'Suuraa Filatamaa' : 'Featured Image'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ImageUpload
+                  value={formData.featured_image}
+                  onChange={(url) => updateField('featured_image', url)}
+                />
               </CardContent>
             </Card>
 
