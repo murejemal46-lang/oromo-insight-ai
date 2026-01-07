@@ -6,27 +6,25 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/store/useAuthStore";
-import { useLanguageStore } from "@/store/useLanguageStore";
 import "@/i18n";
 
 import Index from "./pages/Index";
+import CategoryPage from "./pages/CategoryPage";
+import ArticlePage from "./pages/ArticlePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const { setUser, setSession, setIsLoading } = useAuthStore();
-  const { language } = useLanguageStore();
 
   useEffect(() => {
-    // Set up auth listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
     });
 
-    // Then check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -48,6 +46,8 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/category/:category" element={<CategoryPage />} />
+            <Route path="/article/:slug" element={<ArticlePage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
