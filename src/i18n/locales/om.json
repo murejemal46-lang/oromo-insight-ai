@@ -11,7 +11,8 @@
     "readMore": "Dabalataan dubbisi",
     "seeAll": "Hunda ilaali",
     "share": "Qoodi",
-    "minutes": "daqiiqaa dubbisa"
+    "minutes": "daqiiqaa dubbisa",
+    "settings": "Qindaa'ina"
   },
   "nav": {
     "home": "Mana",
@@ -104,6 +105,12 @@
     "health": "Fayyaa",
     "education": "Barnootaa",
     "world": "Addunyaa"
+  },
+  "dashboard": {
+    "menu": "Tarree",
+    "overview": "Waliigala",
+    "myArticles": "Barruulee Koo",
+    "newArticle": "Barruu Haaraa"
   },
   "footer": {
     "about": "Waa'ee Keenya",

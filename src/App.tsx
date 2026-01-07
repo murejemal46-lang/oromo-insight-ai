@@ -11,6 +11,10 @@ import "@/i18n";
 import Index from "./pages/Index";
 import CategoryPage from "./pages/CategoryPage";
 import ArticlePage from "./pages/ArticlePage";
+import AuthPage from "./pages/AuthPage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
+import MyArticlesPage from "./pages/dashboard/MyArticlesPage";
+import ArticleEditorPage from "./pages/dashboard/ArticleEditorPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +52,11 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/article/:slug" element={<ArticlePage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dashboard/articles" element={<MyArticlesPage />} />
+            <Route path="/dashboard/new" element={<ArticleEditorPage />} />
+            <Route path="/dashboard/edit/:slug" element={<ArticleEditorPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
