@@ -15,6 +15,7 @@ import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import MyArticlesPage from "./pages/dashboard/MyArticlesPage";
 import ArticleEditorPage from "./pages/dashboard/ArticleEditorPage";
+import EditorReviewPage from "./pages/dashboard/EditorReviewPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -57,6 +58,7 @@ const App = () => (
             <Route path="/dashboard/articles" element={<MyArticlesPage />} />
             <Route path="/dashboard/new" element={<ArticleEditorPage />} />
             <Route path="/dashboard/edit/:slug" element={<ArticleEditorPage />} />
+            <Route path="/dashboard/review" element={<EditorReviewPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
