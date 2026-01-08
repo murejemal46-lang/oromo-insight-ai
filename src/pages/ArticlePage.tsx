@@ -38,7 +38,16 @@ export default function ArticlePage() {
   const getExcerpt = () => language === 'om' ? article?.excerpt_om : article?.excerpt_en;
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString(language === 'om' ? 'am-ET' : 'en-US', {
+    const date = new Date(dateString);
+    
+    if (language === 'om') {
+      const days = ['Dilbata', 'Wiixata', 'Kibxata', 'Roobii', 'Kamiisa', 'Jimaata', 'Sanbata'];
+      const months = ['Amajjii', 'Guraandhala', 'Bitootessa', 'Ebla', 'Caamsaa', 'Waxabajjii', 
+                      'Adoolessa', 'Hagayya', 'Fuulbana', 'Onkoloolessa', 'Sadaasa', 'Muddee'];
+      return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    }
+    
+    return date.toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
