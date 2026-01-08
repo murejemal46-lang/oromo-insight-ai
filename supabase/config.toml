@@ -8,3 +8,12 @@ verify_jwt = false
 
 [functions.get-user-emails]
 verify_jwt = false
+
+[functions.admin-bootstrap]
+verify_jwt = false
+
+[functions.admin-invite]
+verify_jwt = false
+
+[functions.admin-actions]
+verify_jwt = false
