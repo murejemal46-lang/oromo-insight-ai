@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, Loader2, Shield, BookOpen, HelpCircle, ExternalLink } from 'lucide-react';
+import { Sparkles, X, Loader2, Shield, BookOpen, HelpCircle, LogIn } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useLanguageStore } from '@/store/useLanguageStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
+import { useAuthStore } from '@/store/useAuthStore';
 import ReactMarkdown from 'react-markdown';
 
 interface QalacaPanelProps {
@@ -18,8 +20,10 @@ interface QalacaPanelProps {
 export function QalacaPanel({ isOpen, onClose, action, article }: QalacaPanelProps) {
   const { t } = useTranslation();
   const { language } = useLanguageStore();
+  const { user } = useAuthStore();
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [usageInfo, setUsageInfo] = useState<{ count: number; limit: number } | null>(null);
 
   const getTitle = () => language === 'om' ? article?.title_om : article?.title_en;
   const getContent = () => language === 'om' ? article?.content_om : article?.content_en;
@@ -54,6 +58,16 @@ export function QalacaPanel({ isOpen, onClose, action, article }: QalacaPanelPro
   const performAction = async () => {
     if (!action || !article) return;
 
+    // Check if user is authenticated
+    if (!user) {
+      toast({
+        title: language === 'om' ? 'Seenuu keessa galaa' : 'Please log in',
+        description: language === 'om' ? 'QALACA fayyadamuuf seenaa' : 'Log in to use QALACA AI features',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setIsLoading(true);
     setResponse('');
 
@@ -73,12 +87,22 @@ export function QalacaPanel({ isOpen, onClose, action, article }: QalacaPanelPro
       }
 
       setResponse(res.data?.result || '');
+      if (res.data?.usage) {
+        setUsageInfo(res.data.usage);
+      }
     } catch (error: any) {
       console.error('QALACA error:', error);
       
-      if (error.message?.includes('429')) {
+      if (error.message?.includes('401') || error.message?.includes('Unauthorized')) {
         toast({
-          title: t('qalaca.rateLimit'),
+          title: language === 'om' ? 'Seenuu keessa galaa' : 'Please log in',
+          description: language === 'om' ? 'QALACA fayyadamuuf seenaa' : 'Log in to use QALACA AI features',
+          variant: 'destructive',
+        });
+      } else if (error.message?.includes('429') || error.message?.includes('usage limit')) {
+        toast({
+          title: language === 'om' ? 'Daangaa gaheera' : 'Usage limit reached',
+          description: language === 'om' ? 'Daangaa AI kee gaheera' : 'You have reached your AI usage limit',
           variant: 'destructive',
         });
       } else if (error.message?.includes('402')) {
@@ -132,7 +156,23 @@ export function QalacaPanel({ isOpen, onClose, action, article }: QalacaPanelPro
 
             {/* Content */}
             <div className="flex-1 overflow-auto p-6">
-              {isLoading ? (
+              {!user ? (
+                <div className="flex flex-col items-center justify-center h-full text-center">
+                  <LogIn className="w-12 h-12 mb-4 text-ai" />
+                  <h3 className="font-display font-semibold mb-2">
+                    {language === 'om' ? 'Seenuu keessa galaa' : 'Please log in'}
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    {language === 'om' ? 'QALACA AI fayyadamuuf seenaa' : 'Log in to use QALACA AI features'}
+                  </p>
+                  <Link to="/auth">
+                    <Button>
+                      <LogIn className="w-4 h-4 mr-2" />
+                      {language === 'om' ? 'Seeni' : 'Log in'}
+                    </Button>
+                  </Link>
+                </div>
+              ) : isLoading ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <Loader2 className="w-8 h-8 text-ai animate-spin mb-4" />
                   <p className="text-muted-foreground">{t('qalaca.thinking')}</p>
@@ -150,8 +190,17 @@ export function QalacaPanel({ isOpen, onClose, action, article }: QalacaPanelPro
                     <ReactMarkdown>{response}</ReactMarkdown>
                   </div>
 
+                  {/* Usage Info */}
+                  {usageInfo && (
+                    <div className="mt-4 p-2 bg-muted/50 rounded text-xs text-muted-foreground text-center">
+                      {language === 'om' 
+                        ? `Fayyadama: ${usageInfo.count}/${usageInfo.limit}` 
+                        : `Usage: ${usageInfo.count}/${usageInfo.limit}`}
+                    </div>
+                  )}
+
                   {/* Disclaimer */}
-                  <div className="mt-6 p-3 bg-muted rounded-lg">
+                  <div className="mt-4 p-3 bg-muted rounded-lg">
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <Sparkles className="w-3 h-3" />
                       <span className="font-medium">{t('qalaca.aiGenerated')}</span>
