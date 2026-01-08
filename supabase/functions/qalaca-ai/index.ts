@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -11,6 +12,67 @@ serve(async (req) => {
   }
 
   try {
+    // Validate authentication
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      console.error('QALACA: Missing or invalid authorization header');
+      return new Response(JSON.stringify({ error: 'Unauthorized - please log in to use QALACA' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } },
+    });
+
+    // Verify the JWT and get user claims
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
+    
+    if (claimsError || !claimsData?.claims) {
+      console.error('QALACA: Invalid token:', claimsError);
+      return new Response(JSON.stringify({ error: 'Unauthorized - invalid session' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const userId = claimsData.claims.sub;
+    console.log(`QALACA: Authenticated user ${userId}`);
+
+    // Check user's AI usage quota
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('ai_usage_count, ai_usage_limit')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    if (profileError) {
+      console.error('QALACA: Error fetching profile:', profileError);
+      return new Response(JSON.stringify({ error: 'Failed to check usage quota' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const usageCount = profile?.ai_usage_count || 0;
+    const usageLimit = profile?.ai_usage_limit || 50;
+
+    if (usageCount >= usageLimit) {
+      console.log(`QALACA: User ${userId} exceeded usage limit (${usageCount}/${usageLimit})`);
+      return new Response(JSON.stringify({ 
+        error: 'AI usage limit exceeded',
+        usage: { count: usageCount, limit: usageLimit }
+      }), {
+        status: 429,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const { action, title, content, language, category } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
@@ -82,7 +144,7 @@ Content: ${content}`;
         throw new Error('Invalid action');
     }
 
-    console.log(`QALACA: Processing ${action} request in ${languageName}`);
+    console.log(`QALACA: Processing ${action} request for user ${userId} in ${languageName} (usage: ${usageCount + 1}/${usageLimit})`);
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -122,12 +184,23 @@ Content: ${content}`;
     const data = await response.json();
     const result = data.choices?.[0]?.message?.content || '';
 
-    console.log(`QALACA: Successfully processed ${action} request`);
+    // Increment usage count after successful AI call
+    const { error: updateError } = await supabase
+      .from('profiles')
+      .update({ ai_usage_count: usageCount + 1 })
+      .eq('user_id', userId);
+
+    if (updateError) {
+      console.error('QALACA: Failed to update usage count:', updateError);
+    }
+
+    console.log(`QALACA: Successfully processed ${action} request for user ${userId}`);
 
     return new Response(JSON.stringify({ 
       result,
       action,
       language,
+      usage: { count: usageCount + 1, limit: usageLimit }
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
