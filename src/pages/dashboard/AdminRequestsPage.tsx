@@ -51,26 +51,37 @@ export default function AdminRequestsPage() {
         .order('created_at', { ascending: true });
       if (error) throw error;
 
-      // Fetch profiles for each request
-      const requestsWithProfiles = await Promise.all(
-        data.map(async (request) => {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('full_name')
-            .eq('user_id', request.user_id)
-            .single();
-          
-          const { data: authUser } = await supabase.auth.admin.getUserById(request.user_id).catch(() => ({ data: null }));
-          
-          return {
-            ...request,
-            profile,
-            email: authUser?.user?.email,
-          };
-        })
-      );
+      if (data.length === 0) return [];
 
-      return requestsWithProfiles as JournalistRequest[];
+      // Fetch profiles for each request
+      const userIds = data.map(r => r.user_id);
+      
+      // Fetch profiles in batch
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('user_id, full_name')
+        .in('user_id', userIds);
+
+      const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+
+      // Fetch emails via secure Edge Function
+      let emailMap: Record<string, string | null> = {};
+      try {
+        const { data: emailData, error: emailError } = await supabase.functions.invoke('get-user-emails', {
+          body: { user_ids: userIds },
+        });
+        if (!emailError && emailData?.emails) {
+          emailMap = emailData.emails;
+        }
+      } catch (e) {
+        console.error('Failed to fetch user emails:', e);
+      }
+
+      return data.map(request => ({
+        ...request,
+        profile: profileMap.get(request.user_id) || null,
+        email: emailMap[request.user_id] || null,
+      })) as JournalistRequest[];
     },
     enabled: !!user,
   });
