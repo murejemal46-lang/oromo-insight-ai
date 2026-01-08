@@ -20,6 +20,11 @@ import MyArticlesPage from "./pages/dashboard/MyArticlesPage";
 import ArticleEditorPage from "./pages/dashboard/ArticleEditorPage";
 import EditorReviewPage from "./pages/dashboard/EditorReviewPage";
 import AdminRequestsPage from "./pages/dashboard/AdminRequestsPage";
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
+import AdminUsersPage from "./pages/admin/AdminUsersPage";
+import AdminManagePage from "./pages/admin/AdminManagePage";
+import AdminAIPage from "./pages/admin/AdminAIPage";
+import AdminLogsPage from "./pages/admin/AdminLogsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -64,6 +69,12 @@ const App = () => (
             <Route path="/dashboard/edit/:slug" element={<JournalistRoute><ArticleEditorPage /></JournalistRoute>} />
             <Route path="/dashboard/review" element={<ProtectedRoute><EditorReviewPage /></ProtectedRoute>} />
             <Route path="/dashboard/requests" element={<AdminRoute><AdminRequestsPage /></AdminRoute>} />
+            {/* Admin Panel Routes */}
+            <Route path="/admin" element={<AdminDashboardPage />} />
+            <Route path="/admin/users" element={<AdminUsersPage />} />
+            <Route path="/admin/admins" element={<AdminManagePage />} />
+            <Route path="/admin/ai" element={<AdminAIPage />} />
+            <Route path="/admin/logs" element={<AdminLogsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
