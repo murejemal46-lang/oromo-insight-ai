@@ -110,7 +110,8 @@
     "menu": "Menu",
     "overview": "Overview",
     "myArticles": "My Articles",
-    "newArticle": "New Article"
+    "newArticle": "New Article",
+    "review": "Review Articles"
   },
   "footer": {
     "about": "About Us",

@@ -85,6 +85,9 @@ export type Database = {
           id: string
           is_featured: boolean | null
           published_at: string | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
           slug: string
           status: Database["public"]["Enums"]["article_status"]
           title_en: string
@@ -112,6 +115,9 @@ export type Database = {
           id?: string
           is_featured?: boolean | null
           published_at?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           slug: string
           status?: Database["public"]["Enums"]["article_status"]
           title_en: string
@@ -139,6 +145,9 @@ export type Database = {
           id?: string
           is_featured?: boolean | null
           published_at?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["article_status"]
           title_en?: string

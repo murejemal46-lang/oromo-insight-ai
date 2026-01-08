@@ -1,15 +1,15 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
 import {
   LayoutDashboard,
   FileText,
   PenSquare,
-  Settings,
   LogOut,
   Sparkles,
-  ChevronLeft,
   Globe,
   Home,
+  ClipboardCheck,
 } from 'lucide-react';
 import {
   Sidebar,
@@ -36,6 +36,12 @@ const menuItems = [
   { title: 'dashboard.newArticle', url: '/dashboard/new', icon: PenSquare },
 ];
 
+const editorMenuItem = { 
+  title: 'dashboard.review', 
+  url: '/dashboard/review', 
+  icon: ClipboardCheck 
+};
+
 export function DashboardSidebar() {
   const { t } = useTranslation();
   const location = useLocation();
@@ -45,6 +51,23 @@ export function DashboardSidebar() {
   const { language, setLanguage } = useLanguageStore();
 
   const isCollapsed = state === 'collapsed';
+
+  // Check if user has editor role
+  const { data: isEditor } = useQuery({
+    queryKey: ['user-role-editor', user?.id],
+    queryFn: async () => {
+      if (!user) return false;
+      const { data, error } = await supabase.rpc('has_role', { 
+        _user_id: user.id, 
+        _role: 'editor' 
+      });
+      if (error) return false;
+      return data;
+    },
+    enabled: !!user,
+  });
+
+  const allMenuItems = isEditor ? [...menuItems, editorMenuItem] : menuItems;
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -84,7 +107,7 @@ export function DashboardSidebar() {
           <SidebarGroupLabel>{isCollapsed ? '' : t('dashboard.menu')}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
+              {allMenuItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton
                     asChild
