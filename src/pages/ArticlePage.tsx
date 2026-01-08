@@ -22,7 +22,7 @@ export default function ArticlePage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('articles')
-        .select('*')
+        .select('id, slug, title_om, title_en, content_om, content_en, excerpt_om, excerpt_en, category, featured_image, status, is_featured, view_count, credibility_level, ai_verification_score, ai_summary_om, ai_summary_en, published_at, created_at, updated_at')
         .eq('slug', slug)
         .eq('status', 'published')
         .maybeSingle();

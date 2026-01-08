@@ -31,7 +31,7 @@ export default function CategoryPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('articles')
-        .select('*')
+        .select('id, slug, title_om, title_en, excerpt_om, excerpt_en, category, featured_image, status, is_featured, view_count, credibility_level, published_at, created_at')
         .eq('category', category as ArticleCategory)
         .eq('status', 'published')
         .order('published_at', { ascending: false });

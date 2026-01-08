@@ -62,6 +62,13 @@ export type Database = {
             referencedRelation: "articles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "ai_logs_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "published_articles_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       articles: {
@@ -255,7 +262,81 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      published_articles_public: {
+        Row: {
+          ai_summary_en: string | null
+          ai_summary_om: string | null
+          ai_verification_score: number | null
+          category: Database["public"]["Enums"]["article_category"] | null
+          content_en: string | null
+          content_om: string | null
+          created_at: string | null
+          credibility_level:
+            | Database["public"]["Enums"]["credibility_level"]
+            | null
+          excerpt_en: string | null
+          excerpt_om: string | null
+          featured_image: string | null
+          id: string | null
+          is_featured: boolean | null
+          published_at: string | null
+          slug: string | null
+          status: Database["public"]["Enums"]["article_status"] | null
+          title_en: string | null
+          title_om: string | null
+          updated_at: string | null
+          view_count: number | null
+        }
+        Insert: {
+          ai_summary_en?: string | null
+          ai_summary_om?: string | null
+          ai_verification_score?: number | null
+          category?: Database["public"]["Enums"]["article_category"] | null
+          content_en?: string | null
+          content_om?: string | null
+          created_at?: string | null
+          credibility_level?:
+            | Database["public"]["Enums"]["credibility_level"]
+            | null
+          excerpt_en?: string | null
+          excerpt_om?: string | null
+          featured_image?: string | null
+          id?: string | null
+          is_featured?: boolean | null
+          published_at?: string | null
+          slug?: string | null
+          status?: Database["public"]["Enums"]["article_status"] | null
+          title_en?: string | null
+          title_om?: string | null
+          updated_at?: string | null
+          view_count?: number | null
+        }
+        Update: {
+          ai_summary_en?: string | null
+          ai_summary_om?: string | null
+          ai_verification_score?: number | null
+          category?: Database["public"]["Enums"]["article_category"] | null
+          content_en?: string | null
+          content_om?: string | null
+          created_at?: string | null
+          credibility_level?:
+            | Database["public"]["Enums"]["credibility_level"]
+            | null
+          excerpt_en?: string | null
+          excerpt_om?: string | null
+          featured_image?: string | null
+          id?: string | null
+          is_featured?: boolean | null
+          published_at?: string | null
+          slug?: string | null
+          status?: Database["public"]["Enums"]["article_status"] | null
+          title_en?: string | null
+          title_om?: string | null
+          updated_at?: string | null
+          view_count?: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {

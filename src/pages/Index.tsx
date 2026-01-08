@@ -20,7 +20,7 @@ export default function Index() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('articles')
-        .select('*')
+        .select('id, slug, title_om, title_en, excerpt_om, excerpt_en, category, featured_image, status, is_featured, view_count, credibility_level, published_at, created_at')
         .eq('status', 'published')
         .eq('is_featured', true)
         .order('published_at', { ascending: false })
@@ -36,7 +36,7 @@ export default function Index() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('articles')
-        .select('*')
+        .select('id, slug, title_om, title_en, excerpt_om, excerpt_en, category, featured_image, status, is_featured, view_count, credibility_level, published_at, created_at')
         .eq('status', 'published')
         .order('published_at', { ascending: false })
         .limit(6);
