@@ -1,0 +1,37 @@
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuthStore } from '@/store/useAuthStore';
+
+type AppRole = 'reader' | 'journalist' | 'editor' | 'admin';
+
+export function useUserRole() {
+  const { user } = useAuthStore();
+
+  const { data: roles, isLoading } = useQuery({
+    queryKey: ['user-roles', user?.id],
+    queryFn: async () => {
+      if (!user) return [];
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id);
+      if (error) throw error;
+      return data.map(r => r.role as AppRole);
+    },
+    enabled: !!user,
+  });
+
+  const hasRole = (role: AppRole) => roles?.includes(role) ?? false;
+  const isJournalist = hasRole('journalist') || hasRole('editor') || hasRole('admin');
+  const isEditor = hasRole('editor') || hasRole('admin');
+  const isAdmin = hasRole('admin');
+
+  return {
+    roles: roles ?? [],
+    isLoading,
+    hasRole,
+    isJournalist,
+    isEditor,
+    isAdmin,
+  };
+}

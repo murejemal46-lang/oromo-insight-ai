@@ -1,6 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useQuery } from '@tanstack/react-query';
 import {
   LayoutDashboard,
   FileText,
@@ -10,6 +9,7 @@ import {
   Globe,
   Home,
   ClipboardCheck,
+  Users,
 } from 'lucide-react';
 import {
   Sidebar,
@@ -28,10 +28,14 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useLanguageStore } from '@/store/useLanguageStore';
+import { useUserRole } from '@/hooks/useUserRole';
 import { toast } from '@/hooks/use-toast';
 
-const menuItems = [
+const baseMenuItems = [
   { title: 'dashboard.overview', url: '/dashboard', icon: LayoutDashboard },
+];
+
+const journalistMenuItems = [
   { title: 'dashboard.myArticles', url: '/dashboard/articles', icon: FileText },
   { title: 'dashboard.newArticle', url: '/dashboard/new', icon: PenSquare },
 ];
@@ -40,6 +44,12 @@ const editorMenuItem = {
   title: 'dashboard.review', 
   url: '/dashboard/review', 
   icon: ClipboardCheck 
+};
+
+const adminMenuItem = {
+  title: 'dashboard.requests',
+  url: '/dashboard/requests',
+  icon: Users,
 };
 
 export function DashboardSidebar() {
@@ -51,23 +61,15 @@ export function DashboardSidebar() {
   const { language, setLanguage } = useLanguageStore();
 
   const isCollapsed = state === 'collapsed';
+  const { isJournalist, isEditor, isAdmin } = useUserRole();
 
-  // Check if user has editor role
-  const { data: isEditor } = useQuery({
-    queryKey: ['user-role-editor', user?.id],
-    queryFn: async () => {
-      if (!user) return false;
-      const { data, error } = await supabase.rpc('has_role', { 
-        _user_id: user.id, 
-        _role: 'editor' 
-      });
-      if (error) return false;
-      return data;
-    },
-    enabled: !!user,
-  });
-
-  const allMenuItems = isEditor ? [...menuItems, editorMenuItem] : menuItems;
+  // Build menu items based on roles
+  const allMenuItems = [
+    ...baseMenuItems,
+    ...(isJournalist ? journalistMenuItems : []),
+    ...(isEditor ? [editorMenuItem] : []),
+    ...(isAdmin ? [adminMenuItem] : []),
+  ];
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();

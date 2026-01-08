@@ -9,11 +9,14 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useLanguageStore } from '@/store/useLanguageStore';
+import { useUserRole } from '@/hooks/useUserRole';
+import { JournalistRequestForm } from '@/components/dashboard/JournalistRequestForm';
 
 export default function DashboardPage() {
   const { t } = useTranslation();
   const { user } = useAuthStore();
   const { language } = useLanguageStore();
+  const { isJournalist, isLoading: roleLoading } = useUserRole();
 
   const { data: stats } = useQuery({
     queryKey: ['dashboard-stats', user?.id],
@@ -123,31 +126,35 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-ai" />
-              {language === 'om' ? 'Hojii Ariifataa' : 'Quick Actions'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-3">
-              <Link to="/dashboard/new">
-                <Button className="gap-2">
-                  <PenSquare className="w-4 h-4" />
-                  {language === 'om' ? 'Barruu Haaraa Barreessi' : 'Write New Article'}
-                </Button>
-              </Link>
-              <Link to="/dashboard/articles">
-                <Button variant="outline" className="gap-2">
-                  <FileText className="w-4 h-4" />
-                  {language === 'om' ? 'Barruulee Koo Ilaali' : 'View My Articles'}
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Quick Actions - Only for journalists */}
+        {isJournalist ? (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-ai" />
+                {language === 'om' ? 'Hojii Ariifataa' : 'Quick Actions'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-3">
+                <Link to="/dashboard/new">
+                  <Button className="gap-2">
+                    <PenSquare className="w-4 h-4" />
+                    {language === 'om' ? 'Barruu Haaraa Barreessi' : 'Write New Article'}
+                  </Button>
+                </Link>
+                <Link to="/dashboard/articles">
+                  <Button variant="outline" className="gap-2">
+                    <FileText className="w-4 h-4" />
+                    {language === 'om' ? 'Barruulee Koo Ilaali' : 'View My Articles'}
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <JournalistRequestForm />
+        )}
 
         {/* Recent Articles */}
         <Card>
