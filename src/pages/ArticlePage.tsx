@@ -6,9 +6,11 @@ import { Shield, Sparkles, ArrowLeft, Calendar, Eye, Share2, BookOpen, CheckCirc
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Separator } from '@/components/ui/separator';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguageStore } from '@/store/useLanguageStore';
 import { QalacaPanel } from '@/components/qalaca/QalacaPanel';
+import { CommentSection } from '@/components/comments/CommentSection';
 import { useState } from 'react';
 
 export default function ArticlePage() {
@@ -216,6 +218,10 @@ export default function ArticlePage() {
                 <p>{t('qalaca.disclaimer')}</p>
               </div>
             )}
+
+            {/* Comments Section */}
+            <Separator className="my-12" />
+            <CommentSection articleId={article.id} />
           </div>
         </div>
       </article>
