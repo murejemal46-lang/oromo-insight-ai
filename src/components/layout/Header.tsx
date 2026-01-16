@@ -2,13 +2,20 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Search, Globe, LayoutDashboard } from 'lucide-react';
+import { Menu, X, Search, Globe, LayoutDashboard, User, LogOut, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguageStore } from '@/store/useLanguageStore';
 import { useAuthStore } from '@/store/useAuthStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const categories = [
   'politics',
@@ -67,16 +74,7 @@ export function Header() {
               <Globe className="w-3.5 h-3.5" />
               <span className="font-medium uppercase">{language}</span>
             </button>
-            {user ? (
-              <div className="flex items-center gap-3">
-                <Link to="/profile" className="hover:text-accent transition-colors">
-                  {t('nav.profile')}
-                </Link>
-                <button onClick={handleLogout} className="hover:text-accent transition-colors">
-                  {t('nav.logout')}
-                </button>
-              </div>
-            ) : (
+            {!user && (
               <div className="flex items-center gap-3">
                 <Link to="/auth" className="hover:text-accent transition-colors">
                   {t('nav.login')}
@@ -126,23 +124,43 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-1">
-            {user && (
-              <Link to="/dashboard">
-                <Button variant="default" size="sm" className="gap-2 hidden sm:flex">
-                  <LayoutDashboard className="w-4 h-4" />
-                  {t('nav.dashboard')}
-                </Button>
-                <Button variant="default" size="icon" className="sm:hidden">
-                  <LayoutDashboard className="w-4 h-4" />
-                </Button>
-              </Link>
-            )}
             <Link to="/search">
               <Button variant="ghost" size="icon">
                 <Search className="w-5 h-5" />
               </Button>
             </Link>
             {user && <NotificationBell />}
+            {user && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="gap-1 ml-1">
+                    <div className="w-7 h-7 bg-accent/20 rounded-full flex items-center justify-center">
+                      <User className="w-4 h-4 text-accent" />
+                    </div>
+                    <ChevronDown className="w-3 h-3 hidden sm:block" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="flex items-center gap-2 cursor-pointer">
+                      <LayoutDashboard className="w-4 h-4" />
+                      {t('nav.dashboard')}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
+                      <User className="w-4 h-4" />
+                      {t('nav.profile')}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-2 cursor-pointer text-destructive">
+                    <LogOut className="w-4 h-4" />
+                    {t('nav.logout')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
             <Button
               variant="ghost"
               size="icon"
@@ -170,14 +188,6 @@ export function Header() {
                   {t('nav.home')}
                 </Button>
               </Link>
-              {user && (
-                <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start gap-2">
-                    <LayoutDashboard className="w-4 h-4" />
-                    {t('nav.dashboard')}
-                  </Button>
-                </Link>
-              )}
               {categories.map((category) => (
                 <Link
                   key={category}

@@ -2,34 +2,18 @@ import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Sparkles, Shield, BookOpen, TrendingUp, ArrowRight, Calendar, Eye, FileText, User, LayoutDashboard } from 'lucide-react';
+import { Sparkles, Shield, BookOpen, TrendingUp, ArrowRight, Calendar, Eye } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguageStore } from '@/store/useLanguageStore';
-import { useAuthStore } from '@/store/useAuthStore';
+
 const categories = ['politics', 'business', 'culture', 'sports', 'technology', 'health', 'education', 'world'] as const;
 
 export default function Index() {
   const { t } = useTranslation();
   const { language } = useLanguageStore();
-  const { user } = useAuthStore();
-
-  const { data: profile } = useQuery({
-    queryKey: ['profile', user?.id],
-    queryFn: async () => {
-      if (!user?.id) return null;
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('full_name')
-        .eq('user_id', user.id)
-        .single();
-      if (error) return null;
-      return data;
-    },
-    enabled: !!user?.id,
-  });
   const { data: featuredArticles, isLoading: loadingFeatured } = useQuery({
     queryKey: ['articles', 'featured'],
     queryFn: async () => {
@@ -73,51 +57,6 @@ export default function Index() {
 
   return (
     <Layout>
-      {/* Personalized Welcome for Logged-in Users */}
-      {user && (
-        <section className="bg-gradient-to-r from-accent/10 via-accent/5 to-transparent border-b">
-          <div className="container py-6">
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center">
-                  <User className="w-6 h-6 text-accent" />
-                </div>
-                <div>
-                  <h2 className="font-display text-lg font-semibold">
-                    {language === 'om' 
-                      ? `Baga nagaan dhufte, ${profile?.full_name || t('auth.user')}!` 
-                      : `Welcome back, ${profile?.full_name || t('auth.user')}!`}
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    {language === 'om' 
-                      ? 'Maal hojjachuu barbaadda har\'a?' 
-                      : 'What would you like to do today?'}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Link to="/dashboard/articles">
-                  <Button variant="outline" size="sm" className="gap-2">
-                    <FileText className="w-4 h-4" />
-                    {language === 'om' ? 'Barruulee Koo' : 'My Articles'}
-                  </Button>
-                </Link>
-                <Link to="/dashboard">
-                  <Button variant="outline" size="sm" className="gap-2">
-                    <LayoutDashboard className="w-4 h-4" />
-                    {t('nav.dashboard')}
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-      )}
-
       {/* Hero Section */}
       <section className="relative bg-primary text-primary-foreground py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-accent/20" />
