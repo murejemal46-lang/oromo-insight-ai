@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Search, Globe, User } from 'lucide-react';
+import { Menu, X, Search, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguageStore } from '@/store/useLanguageStore';
 import { useAuthStore } from '@/store/useAuthStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
+import { NotificationBell } from '@/components/notifications/NotificationBell';
 
 const categories = [
   'politics',
@@ -25,7 +26,6 @@ export function Header() {
   const { language, setLanguage } = useLanguageStore();
   const { user } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -125,14 +125,13 @@ export function Header() {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
-              <Search className="w-5 h-5" />
-            </Button>
+          <div className="flex items-center gap-1">
+            <Link to="/search">
+              <Button variant="ghost" size="icon">
+                <Search className="w-5 h-5" />
+              </Button>
+            </Link>
+            {user && <NotificationBell />}
             <Button
               variant="ghost"
               size="icon"
@@ -143,29 +142,6 @@ export function Header() {
             </Button>
           </div>
         </div>
-
-        {/* Search Bar */}
-        <AnimatePresence>
-          {isSearchOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden"
-            >
-              <div className="pt-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                  <input
-                    type="search"
-                    placeholder={t('common.search')}
-                    className="w-full pl-10 pr-4 py-3 bg-secondary rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                  />
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
       {/* Mobile Menu */}
