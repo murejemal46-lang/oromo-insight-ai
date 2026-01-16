@@ -39,7 +39,7 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      navigate('/');
     }
   }, [user, navigate]);
 
@@ -79,7 +79,7 @@ export default function AuthPage() {
           email: formData.email.trim(),
           password: formData.password,
           options: {
-            emailRedirectTo: `${window.location.origin}/dashboard`,
+            emailRedirectTo: `${window.location.origin}/`,
             data: {
               full_name: formData.fullName.trim(),
               preferred_language: language,
@@ -100,7 +100,7 @@ export default function AuthPage() {
           toast({
             title: t('auth.signupSuccess'),
           });
-          navigate('/dashboard');
+          navigate('/');
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({
@@ -117,7 +117,7 @@ export default function AuthPage() {
           toast({
             title: t('auth.loginSuccess'),
           });
-          navigate('/dashboard');
+          navigate('/');
         }
       }
     } catch (error: any) {
