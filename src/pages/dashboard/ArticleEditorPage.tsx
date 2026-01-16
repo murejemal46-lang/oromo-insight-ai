@@ -17,6 +17,7 @@ import {
 import { z } from 'zod';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { ImageUpload } from '@/components/dashboard/ImageUpload';
+import { RichTextEditor } from '@/components/editor/RichTextEditor';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -336,12 +337,10 @@ export default function ArticleEditorPage() {
                     </div>
                     <div className="space-y-2">
                       <Label>{language === 'om' ? 'Qabiyyee' : 'Content'} (Oromo)</Label>
-                      <Textarea
+                      <RichTextEditor
                         value={formData.content_om}
-                        onChange={(e) => updateField('content_om', e.target.value)}
+                        onChange={(value) => updateField('content_om', value)}
                         placeholder={language === 'om' ? 'Qabiyyee barruu kee barreessi...' : 'Write your article content...'}
-                        rows={12}
-                        className="font-body"
                       />
                       {errors.content_om && <p className="text-sm text-destructive">{errors.content_om}</p>}
                     </div>
@@ -370,12 +369,10 @@ export default function ArticleEditorPage() {
                     </div>
                     <div className="space-y-2">
                       <Label>Content (English)</Label>
-                      <Textarea
+                      <RichTextEditor
                         value={formData.content_en}
-                        onChange={(e) => updateField('content_en', e.target.value)}
+                        onChange={(value) => updateField('content_en', value)}
                         placeholder="Write your article content..."
-                        rows={12}
-                        className="font-body"
                       />
                       {errors.content_en && <p className="text-sm text-destructive">{errors.content_en}</p>}
                     </div>
