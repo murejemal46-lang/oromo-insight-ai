@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Search, Globe } from 'lucide-react';
+import { Menu, X, Search, Globe, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguageStore } from '@/store/useLanguageStore';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -126,6 +126,17 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-1">
+            {user && (
+              <Link to="/dashboard">
+                <Button variant="default" size="sm" className="gap-2 hidden sm:flex">
+                  <LayoutDashboard className="w-4 h-4" />
+                  {t('nav.dashboard')}
+                </Button>
+                <Button variant="default" size="icon" className="sm:hidden">
+                  <LayoutDashboard className="w-4 h-4" />
+                </Button>
+              </Link>
+            )}
             <Link to="/search">
               <Button variant="ghost" size="icon">
                 <Search className="w-5 h-5" />
@@ -159,6 +170,14 @@ export function Header() {
                   {t('nav.home')}
                 </Button>
               </Link>
+              {user && (
+                <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start gap-2">
+                    <LayoutDashboard className="w-4 h-4" />
+                    {t('nav.dashboard')}
+                  </Button>
+                </Link>
+              )}
               {categories.map((category) => (
                 <Link
                   key={category}
