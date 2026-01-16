@@ -113,7 +113,8 @@
     "newArticle": "New Article",
     "mediaLibrary": "Media Library",
     "review": "Review Articles",
-    "requests": "Journalist Requests"
+    "requests": "Journalist Requests",
+    "moderation": "Comment Moderation"
   },
   "footer": {
     "about": "About Us",

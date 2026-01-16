@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/store/useAuthStore";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { JournalistRoute } from "@/components/auth/JournalistRoute";
+import { EditorRoute } from "@/components/auth/EditorRoute";
 import { AdminRoute } from "@/components/auth/AdminRoute";
 import "@/i18n";
 
@@ -22,6 +23,7 @@ import ArticleEditorPage from "./pages/dashboard/ArticleEditorPage";
 import MediaLibraryPage from "./pages/dashboard/MediaLibraryPage";
 import EditorReviewPage from "./pages/dashboard/EditorReviewPage";
 import AdminRequestsPage from "./pages/dashboard/AdminRequestsPage";
+import CommentModerationPage from "./pages/dashboard/CommentModerationPage";
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 import AdminUsersPage from "./pages/admin/AdminUsersPage";
 import AdminManagePage from "./pages/admin/AdminManagePage";
@@ -71,7 +73,8 @@ const App = () => (
             <Route path="/dashboard/new" element={<JournalistRoute><ArticleEditorPage /></JournalistRoute>} />
             <Route path="/dashboard/edit/:slug" element={<JournalistRoute><ArticleEditorPage /></JournalistRoute>} />
             <Route path="/dashboard/media" element={<JournalistRoute><MediaLibraryPage /></JournalistRoute>} />
-            <Route path="/dashboard/review" element={<ProtectedRoute><EditorReviewPage /></ProtectedRoute>} />
+            <Route path="/dashboard/review" element={<EditorRoute><EditorReviewPage /></EditorRoute>} />
+            <Route path="/dashboard/moderation" element={<EditorRoute><CommentModerationPage /></EditorRoute>} />
             <Route path="/dashboard/requests" element={<AdminRoute><AdminRequestsPage /></AdminRoute>} />
             {/* Admin Panel Routes */}
             <Route path="/admin" element={<AdminDashboardPage />} />
