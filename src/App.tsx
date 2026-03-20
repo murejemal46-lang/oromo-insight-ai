@@ -14,7 +14,6 @@ import "@/i18n";
 import Index from "./pages/Index";
 import CategoryPage from "./pages/CategoryPage";
 import ArticlePage from "./pages/ArticlePage";
-import SearchPage from "./pages/SearchPage";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import MyArticlesPage from "./pages/dashboard/MyArticlesPage";
@@ -61,7 +60,6 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/search" element={<SearchPage />} />
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/article/:slug" element={<ArticlePage />} />
             <Route path="/auth" element={<AuthPage />} />
