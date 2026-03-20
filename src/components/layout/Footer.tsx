@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Sparkles } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 const categories = [
   'politics',
@@ -14,15 +13,11 @@ const categories = [
   'world',
 ] as const;
 
-interface FooterProps {
-  className?: string;
-}
-
-export function Footer({ className }: FooterProps) {
+export function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className={cn("bg-primary text-primary-foreground", className)}>
+    <footer className="bg-primary text-primary-foreground">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
