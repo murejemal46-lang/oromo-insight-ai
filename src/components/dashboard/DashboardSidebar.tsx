@@ -10,7 +10,6 @@ import {
   Home,
   ClipboardCheck,
   Users,
-  Image,
 } from 'lucide-react';
 import {
   Sidebar,
@@ -39,7 +38,6 @@ const baseMenuItems = [
 const journalistMenuItems = [
   { title: 'dashboard.myArticles', url: '/dashboard/articles', icon: FileText },
   { title: 'dashboard.newArticle', url: '/dashboard/new', icon: PenSquare },
-  { title: 'dashboard.mediaLibrary', url: '/dashboard/media', icon: Image },
 ];
 
 const editorMenuItem = { 

@@ -19,7 +19,6 @@ import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import MyArticlesPage from "./pages/dashboard/MyArticlesPage";
 import ArticleEditorPage from "./pages/dashboard/ArticleEditorPage";
-import MediaLibraryPage from "./pages/dashboard/MediaLibraryPage";
 import EditorReviewPage from "./pages/dashboard/EditorReviewPage";
 import AdminRequestsPage from "./pages/dashboard/AdminRequestsPage";
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
@@ -70,7 +69,6 @@ const App = () => (
             <Route path="/dashboard/articles" element={<JournalistRoute><MyArticlesPage /></JournalistRoute>} />
             <Route path="/dashboard/new" element={<JournalistRoute><ArticleEditorPage /></JournalistRoute>} />
             <Route path="/dashboard/edit/:slug" element={<JournalistRoute><ArticleEditorPage /></JournalistRoute>} />
-            <Route path="/dashboard/media" element={<JournalistRoute><MediaLibraryPage /></JournalistRoute>} />
             <Route path="/dashboard/review" element={<ProtectedRoute><EditorReviewPage /></ProtectedRoute>} />
             <Route path="/dashboard/requests" element={<AdminRoute><AdminRequestsPage /></AdminRoute>} />
             {/* Admin Panel Routes */}
