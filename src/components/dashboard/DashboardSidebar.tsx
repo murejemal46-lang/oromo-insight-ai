@@ -11,7 +11,6 @@ import {
   ClipboardCheck,
   Users,
   Image,
-  Shield,
 } from 'lucide-react';
 import {
   Sidebar,
@@ -43,10 +42,11 @@ const journalistMenuItems = [
   { title: 'dashboard.mediaLibrary', url: '/dashboard/media', icon: Image },
 ];
 
-const editorMenuItems = [
-  { title: 'dashboard.review', url: '/dashboard/review', icon: ClipboardCheck },
-  { title: 'dashboard.moderation', url: '/dashboard/moderation', icon: Shield },
-];
+const editorMenuItem = { 
+  title: 'dashboard.review', 
+  url: '/dashboard/review', 
+  icon: ClipboardCheck 
+};
 
 const adminMenuItem = {
   title: 'dashboard.requests',
@@ -69,7 +69,7 @@ export function DashboardSidebar() {
   const allMenuItems = [
     ...baseMenuItems,
     ...(isJournalist ? journalistMenuItems : []),
-    ...(isEditor ? editorMenuItems : []),
+    ...(isEditor ? [editorMenuItem] : []),
     ...(isAdmin ? [adminMenuItem] : []),
   ];
 
